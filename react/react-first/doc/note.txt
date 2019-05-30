@@ -1,0 +1,10 @@
+笔记文件
+进度: 3-2
+安装手脚架
+    npm i -g creat-react-app
+创建项目
+    create-react-app my-app
+
+
+占位符
+    Fragment
