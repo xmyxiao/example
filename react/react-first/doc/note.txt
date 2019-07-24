@@ -1,5 +1,5 @@
 笔记文件
-进度: 3-2
+进度: 3-6
 安装手脚架
     npm i -g creat-react-app
 创建项目
@@ -7,4 +7,14 @@
 
 
 占位符
-    Fragment
+    Fragment  作为根节点
+
+注释
+{/**/}
+{
+    // 这里的注释要换行
+}
+
+className 代替class  class是类关键字
+
+htmlFor  替代label下的for
