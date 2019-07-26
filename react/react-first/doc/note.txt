@@ -1,5 +1,5 @@
 笔记文件
-进度: 3-6
+进度: 4-8
 安装手脚架
     npm i -g creat-react-app
 创建项目
@@ -18,3 +18,78 @@
 className 代替class  class是类关键字
 
 htmlFor  替代label下的for
+
+propType 控制子组件接受值的类型
+defaultProps 默认值
+
+stat 或者props改变时 执行render
+父组件render执行  子组件也执行render
+
+虚拟dom就是一个js对象  用于描述真实dom
+js生成dom节点损耗性能比较严重
+比较虚拟dom中使用diff算法
+setState  方法是异步方法  在极短的时间内多次访问可以合并成一次请求  只更新一次节点
+同级对比  根节点不同直接重新生成虚拟节点（优势  算法简单  减少算法消耗）
+使用稳定的值作为key值  减少比对次数
+
+react ref
+setState是异步操作  所以直接操作dom时有时会取到不正确的dom
+应该再setState的执行回调函数执行
+
+生命周期函数  指某一时刻组件会自动执行的函数
+
+是否渲染
+shouldComponentUpdate (nextProps,nextState){
+	if(nextProps !== this.props){
+		return true
+	}else{
+		return false;
+	}
+}
+这种做法类似于函数防抖与节流
+
+挂载前可能会冲突  在constructor中也可以
+组件挂载后执行  只执行一次  ajax尽量在挂载后
+componentDidMount(){
+	axios.get('url').then((res) => {
+		this.setState(() => ({
+			list: [...res.data]
+		}))
+	})
+	.catch(() => {
+		
+	})
+}
+css 动画
+.hide{
+	animation: hide-item 2s ease-in forwards;
+}
+hide-item  执行动画
+2s 动画时长
+ease-in 动画曲线
+forwards  保持最后一帧的动画效果
+
+@keyframes hide-item{
+	0% {
+		
+	}
+	50% {
+		
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
