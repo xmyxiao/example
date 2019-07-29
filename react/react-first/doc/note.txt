@@ -1,5 +1,5 @@
 笔记文件
-进度: 4-8
+进度: 6-8
 安装手脚架
     npm i -g creat-react-app
 创建项目
@@ -78,11 +78,15 @@ forwards  保持最后一帧的动画效果
 	}
 }
 
+子组件调用父组件的方法
+使用() => { this.props.fun(index) }来传递参数
 
+可以分为容器组件和UI组件   UI组件负责显示  容器组件处理逻辑
+ui组件可以是无状态组件  只有render函数  性能较高
 
+redux thunk 是action和store的中间件
 
-
-
+redux sagas  generator函数
 
 
 
