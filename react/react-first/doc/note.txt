@@ -1,5 +1,5 @@
 笔记文件
-进度: 4-8
+进度: 4-13
 安装手脚架
     npm i -g creat-react-app
 创建项目
@@ -78,6 +78,17 @@ forwards  保持最后一帧的动画效果
 	}
 }
 
+react 动画插件  react-transition-group
+
+redux devtools  chrome插件
+
+reducer 可以接收state  但是不能修改state
+
+actionTypes 统一管理action的type
+actionCreators 统一管理action的生成
+
+redux下store是唯一的   只有store能改变自己的内容  reducer必须是纯函数
+纯函数  给定固定的输入就一定会有固定的输出（有不稳定因素  比如日期）  而且没有副作用（对参数进行修改）
 
 
 
