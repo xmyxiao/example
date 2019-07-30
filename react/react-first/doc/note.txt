@@ -101,6 +101,15 @@ redux thunk 是action和store的中间件
 
 redux sagas  generator函数
 
+css样式模块  styled-components  reset.css
+
+图片引入  import pic url(${pic})
+<NavItem className="left"></NavItem>
+export const NavItem = styled.div`
+	&.left {
+
+	}
+`
 
 
 
