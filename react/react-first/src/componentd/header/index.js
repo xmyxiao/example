@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Title } from './style'
+import { actionCreators } from '../store';
 
 class Header extends Component {
   render(){

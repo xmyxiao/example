@@ -133,7 +133,12 @@ redux-immutable
 import { combineReducers } from 'redux-immutable'
 state.getInt(['',''])
 
+组件销毁的时候  如果有相关的事件绑定  需要解绑  避免影响其他组件
+PureCompent  需要和redux-immutable 一起使用
+单页应用  只加载一次html  
+可以使用 Link组件
 
-
+组件异步加载  react-loadable
+wihtRouter from react-router-dom  使一个组件能直接使用路由上的数据
 
 
