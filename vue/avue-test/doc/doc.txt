@@ -1,0 +1,4 @@
+
+yarn install --registry=https://registry.npm.taobao.org
+
+yarn run serve

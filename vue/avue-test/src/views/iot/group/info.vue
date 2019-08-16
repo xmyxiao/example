@@ -43,19 +43,12 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="分组信息" name="group-list">
         <div class="tabs-body">
-          <div class="group-list-info">
-            <div class="title">分组信息</div>
-            <div></div>
-            <div class="edit">
-              <el-button type="primary" @click.stop="editorGroup">编辑</el-button>
-            </div>
-          </div>
-          <div class="group-list-table">
-            <div class="table-row"></div>
-            <div class="table-row"></div>
-            <div class="table-row"></div>
-            <div class="table-row"></div>
-          </div>
+          <child-info 
+            ref="childInfo"
+            @copyGroupId="copyGroupId"
+            @editorGroup="editorGroup"
+            :groupInfo = "infoData">
+          </child-info>
         </div>
       </el-tab-pane>
       <el-tab-pane label="设备列表" name="equ-list">
@@ -65,7 +58,7 @@
       </el-tab-pane>
       <el-tab-pane label="子分组列表" name="child-list">
         <div class="tabs-body">
-          子分组列表
+          <child-list></child-list>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -74,9 +67,16 @@
 </template>
 
 <script>
-import { getGroupInfo } from "@/api/iot/group";
+import { getGroupInfo, putGroupInfo } from "@/api/iot/group";
+import childInfo from "@/views/iot/group/childInfo";
+import childList from "@/views/iot/group/childList";
 
 export default {
+  name: 'group-info',
+  components: {
+    childInfo,
+    childList
+  },
   data() {
     return {
       activeName: 'group-list',
@@ -94,15 +94,30 @@ export default {
   },
   methods: {
     getGroundPageInfo() {
-      getGroupInfo(this.$route.params.id).then( res => {
-        this.infoData = res.data.data
+      getGroupInfo(this.$route.params.id).then( response => {
+        this.infoData = Object.assign({}, this.infoData, response.data.data)
       })
     },
     copyGroupId() {
       
     },
-    editorGroup() {
-
+    editorGroup(msg) {
+      putGroupInfo(Object.assign(this.infoData,{"remark":msg})).then(() => {
+        this.$notify({
+          title: "成功",
+          message: "修改成功",
+          type: "success",
+          duration: 2000
+        });
+        this.$refs.childInfo.closeDialog()
+      }).catch(() => {
+        this.$notify({
+          title: "失败",
+          message: "修改失败",
+          type: "error",
+          duration: 2000
+        });
+      });
     }
   }
 }
@@ -166,29 +181,6 @@ export default {
       padding: 20px;
       overflow: hidden;
       background-color: #fff;
-    }
-  }
-
-  .group-list-info{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    flex: 1;
-    .title{
-      line-height: 30px;
-      font-size: 16px;
-      font-weight: 700;
-      color: #373d41;
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
-  }
-  .group-list-table{
-    border-top: 1px solid #ebecec;
-    border-left: 1px solid #ebecec;
-    .table-row{
-      display: flex;
     }
   }
 }

@@ -28,3 +28,9 @@ export const getGroupInfo = (query) => request({
   method: 'GET',
   data: query 
 })
+
+export const putGroupInfo = (query) => request({
+  url: '/iot/device/tree/put',
+  method: 'GET',
+  data: query 
+})

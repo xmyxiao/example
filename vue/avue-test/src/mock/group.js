@@ -4,9 +4,11 @@ import { groupLIst, groupTree, groupInfo } from '@/const/iot/group'
 export default ({ mock }) => {
   if (!mock) return;
   Mock.mock('/iot/device/tree/list', 'get', (res) => {
-      return {
-        data: groupLIst
-      }
+    let body = JSON.parse(res.body);
+    console.log(body)
+    return {
+      data: groupLIst
+    }
   })
   
   Mock.mock('/iot/device/tree/add', 'post', (res) => {
@@ -20,6 +22,8 @@ export default ({ mock }) => {
   })
 
   Mock.mock('/iot/device/tree/tree', 'get', (res) => {
+    let body = JSON.parse(res.body);
+    console.log(body)
     return groupTree
   })
 
@@ -33,8 +37,17 @@ export default ({ mock }) => {
     return reData
   })
 
-  Mock.mock('/iot/device/tree/info', 'get', (res) => {
+  Mock.mock('/iot/device/tree/info', 'get', () => {
     return groupInfo
+  })
+
+  Mock.mock('/iot/device/tree/put', 'get', () => {
+    let item = {
+      "code": 0,
+      "data": {},
+      "msg": ""
+    }
+    return item
   })
 
 }
