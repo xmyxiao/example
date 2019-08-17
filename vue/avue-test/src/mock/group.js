@@ -7,7 +7,7 @@ export default ({ mock }) => {
     let body = JSON.parse(res.body);
     console.log(body)
     return {
-      data: groupLIst
+      data: groupLIst.data
     }
   })
   

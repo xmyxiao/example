@@ -1,6 +1,6 @@
 <template>
   <div class="child-list">
-    <h3>分组列表</h3>
+    <h3>设备列表</h3>
     <avue-crud 
       :option="option" 
       :data="groupList" 
@@ -18,7 +18,16 @@
         <el-button type="primary"
           icon="el-icon-plus"
           size="small"
-          @click.stop="handleAdd()">新建分组</el-button>
+          @click.stop="handleAdd()">添加设备到分组</el-button>
+      </template>
+      <template slot="search">
+        <el-form-item label="产品">
+          <el-input 
+            placeholder="请选择分组标签" 
+            size="small" 
+            @focus="handSelectTag"
+            v-model="searchForm.tag" />
+        </el-form-item>
       </template>
       <template slot-scope="scope" slot="menu">
         <el-button type="text"
@@ -54,10 +63,10 @@
 
 <script>
   import { addObj, fetchGroupList, getGroupTree, delGroup } from "@/api/iot/group";
-  import { tableOption } from '@/const/crud/iot/group'
+  import { tableOption } from '@/const/crud/iot/equ'
 
   export default {
-    name: "table_group",
+    name: "equ-list",
     data() {
       return {
         parentGroup: [],
@@ -116,8 +125,7 @@
         this.getList(this.page)
       },
       handleAdd(){
-        this.getDiaGroupTree()
-        this.$refs.crud.rowAdd();
+        
       },
       create(row, done, loading) {
         this.form.parentId = this.parentGroupSelect.id

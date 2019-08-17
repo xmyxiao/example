@@ -6,7 +6,7 @@ export const tableOption = {
   addBtn: false,
   column: [{
     label: '父组',
-    prop: 'parent_id',
+    prop: 'parentId',
     hide: true,
     span: 24,
     formsolt: true,
@@ -22,12 +22,12 @@ export const tableOption = {
     }]
   },{
     label: '分组ID',
-    prop: 'app_id',
+    prop: 'appId',
     addDisplay: false,
     addVisdiplay: false
   },{
     label: '添加时间',
-    prop: 'create_time',
+    prop: 'createTime',
     addDisplay: false,
     addVisdiplay: false
   },{

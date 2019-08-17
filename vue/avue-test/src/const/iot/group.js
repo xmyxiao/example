@@ -4,13 +4,13 @@ export const groupLIst = {
   "data": {
     "records": [
       {
-        "tree_path": "",
-        "create_time": "2019-08-13 03:32:51",
-        "create_id": 1,
-        "parent_id": 0,
+        "treePath": "",
+        "createTime": "2019-08-13 03:32:51",
+        "createId": 1,
+        "parentId": 0,
         "name": "分组1",
         "id": 1,
-        "app_id": "abD2w3h2e4d24"
+        "appId": "abD2w3h2e4d24"
       }
     ],
     "total": 1,

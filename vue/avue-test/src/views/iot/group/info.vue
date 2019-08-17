@@ -53,7 +53,9 @@
       </el-tab-pane>
       <el-tab-pane label="设备列表" name="equ-list">
         <div class="tabs-body">
-          设备列表
+          <!-- <equ-list>
+
+          </equ-list> -->
         </div>
       </el-tab-pane>
       <el-tab-pane label="子分组列表" name="child-list">
@@ -67,12 +69,12 @@
 </template>
 
 <script>
-import { getGroupInfo, putGroupInfo } from "@/api/iot/group";
+import { getGroupInfo,putGroupInfo } from "@/api/iot/group";
 import childInfo from "@/views/iot/group/childInfo";
 import childList from "@/views/iot/group/childList";
+/* import equList from "@/views/iot/group/equList"; */
 
 export default {
-  name: 'group-info',
   components: {
     childInfo,
     childList
@@ -87,7 +89,9 @@ export default {
     
   },
   watch: {
-    
+    $route(){
+      this.getGroundPageInfo()
+    }
   },
   created() {
     this.getGroundPageInfo()
@@ -99,7 +103,15 @@ export default {
       })
     },
     copyGroupId() {
-      
+      let self = this;
+      this.$copyText(this.infoData.appId).then(function() {
+        self.$message({
+          message: '复制成功',
+          type: 'success'
+        });
+      }, function() {
+        self.$message.error('复制失败');
+      })
     },
     editorGroup(msg) {
       putGroupInfo(Object.assign(this.infoData,{"remark":msg})).then(() => {
