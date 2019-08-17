@@ -1,5 +1,5 @@
 <template> 
-  <div class="groupInfo">
+  <div class="groupInfo" v-loading="loading">
     <div class="heard">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item to="/iot/group">分組管理</el-breadcrumb-item>
@@ -53,9 +53,9 @@
       </el-tab-pane>
       <el-tab-pane label="设备列表" name="equ-list">
         <div class="tabs-body">
-          <!-- <equ-list>
+          <equ-list>
 
-          </equ-list> -->
+          </equ-list>
         </div>
       </el-tab-pane>
       <el-tab-pane label="子分组列表" name="child-list">
@@ -72,17 +72,19 @@
 import { getGroupInfo,putGroupInfo } from "@/api/iot/group";
 import childInfo from "@/views/iot/group/childInfo";
 import childList from "@/views/iot/group/childList";
-/* import equList from "@/views/iot/group/equList"; */
+import equList from "@/views/iot/group/equList";
 
 export default {
   components: {
     childInfo,
-    childList
+    childList,
+    equList
   },
   data() {
     return {
       activeName: 'group-list',
-      infoData: {}
+      infoData: {},
+      loading: false
     };
   },
   computed: {
@@ -98,8 +100,10 @@ export default {
   },
   methods: {
     getGroundPageInfo() {
+      this.loading = true
       getGroupInfo(this.$route.params.id).then( response => {
         this.infoData = Object.assign({}, this.infoData, response.data.data)
+        this.loading = false
       })
     },
     copyGroupId() {
@@ -113,8 +117,8 @@ export default {
         self.$message.error('复制失败');
       })
     },
-    editorGroup(msg) {
-      putGroupInfo(Object.assign(this.infoData,{"remark":msg})).then(() => {
+    editorGroup(msgObj) {
+      putGroupInfo(Object.assign(this.infoData,{"remark":msgObj.remark,"name":msgObj.name})).then(() => {
         this.$notify({
           title: "成功",
           message: "修改成功",

@@ -83,13 +83,13 @@
       </div>
     </div>
 
-    <el-dialog class="group-dialog" title="编辑分组信息" :visible.sync="dialogShow" width="600">
+    <el-dialog class="group-dialog" title="编辑分组信息" :visible.sync="dialogShow" width="600" @close="dialogCloseCell">
       <el-form :model="groupInfo">
         <el-form-item label="父组">
-          <el-input v-model="dialogData.name" :disabled="true"></el-input>
+          <el-input v-model="dialogData.parentId" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="分组名称">
-          <el-input v-model="dialogData.name" :disabled="true"></el-input>
+          <el-input v-model="dialogData.name"></el-input>
         </el-form-item>
         <el-form-item label="分组描述">
           <el-input
@@ -125,15 +125,22 @@ export default {
   },
   watch: {
     groupInfo(obj) {
-      this.dialogData = JSON.parse(JSON.stringify(obj))
+      this.setDialogData(obj)
     }
   },
   created() {
 
   },
   methods: {
+    setDialogData(obj) {
+      this.dialogData = JSON.parse(JSON.stringify(obj))
+    },
     changeInfo() {
-      this.$emit("editorGroup",this.dialogData.remark);
+      this.$emit("editorGroup",this.dialogData);
+    },
+    dialogCloseCell() {
+      let obj = this.groupInfo
+      this.setDialogData(obj)
     },
     closeDialog() {
       this.dialogShow = false

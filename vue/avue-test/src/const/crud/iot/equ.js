@@ -1,5 +1,6 @@
 export const tableOption = {
   menuType: 'text',
+  selection: true,
   viewBtn: false,
   delBtn: false,
   editBtn: false,
@@ -14,10 +15,28 @@ export const tableOption = {
     prop: 'product',
   },{
     label: '节点类型',
-    prop: 'type'
+    prop: 'type',
+    dicData:[
+      {
+        label:'类型1',
+        value:1
+      },{
+        label:'类型0',
+        value:0
+      }
+    ]
   },{
     label: '状态/启用状态',
-    prop: 'state'
+    prop: 'state',
+    dicData:[
+      {
+        label:'状态1',
+        value:1
+      },{
+        label:'状态0',
+        value:0
+      }
+    ]
   },{
     label: '最后上线时间',
     prop: 'time',

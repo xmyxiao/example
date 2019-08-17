@@ -1,5 +1,5 @@
 import Mock from 'mockjs'
-import { groupLIst, groupTree, groupInfo } from '@/const/iot/group'
+import { groupLIst, groupTree, groupInfo, equLIst } from '@/const/iot/group'
 
 export default ({ mock }) => {
   if (!mock) return;
@@ -48,6 +48,12 @@ export default ({ mock }) => {
       "msg": ""
     }
     return item
+  })
+
+  Mock.mock('/iot/equ/tree/list', 'get', (res) => {
+    let body = JSON.parse(res.body);
+    console.log(body)
+    return equLIst
   })
 
 }
