@@ -83,15 +83,15 @@
       </div>
     </div>
 
-    <el-dialog class="group-dialog" title="编辑分组信息" :visible.sync="dialogShow" width="600" @close="dialogCloseCell">
+    <el-dialog class="group-dialog" title="编辑分组信息" :visible.sync="dialogShow" width="600px" @close="dialogCloseCell">
       <el-form :model="groupInfo">
-        <el-form-item label="父组">
+        <el-form-item label="父组：">
           <el-input v-model="dialogData.parentId" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="分组名称">
+        <el-form-item label="分组名称：">
           <el-input v-model="dialogData.name"></el-input>
         </el-form-item>
-        <el-form-item label="分组描述">
+        <el-form-item label="分组描述：">
           <el-input
             type="textarea"
             :rows="4"
@@ -222,7 +222,6 @@ export default {
     .el-dialog__body{
       padding: 28px;
       .el-form-item{
-        margin-bottom: 0;
         .el-form-item__label{
           line-height: 30px;
         }

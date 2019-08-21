@@ -247,6 +247,14 @@ const first = [{
         icon: 'icon-biaoge',
         meta: {},
         children: []
+    }, {
+        id: 1212,
+        label: "设备",
+        path: 'device',
+        component: 'views/iot/device/index',
+        icon: 'icon-biaoge',
+        meta: {},
+        children: []
     }]
 
 }]

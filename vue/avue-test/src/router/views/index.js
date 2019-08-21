@@ -30,13 +30,20 @@ export default [{
     path: '/iot',
     component: Layout,
     children: [{
-        path: '',
+        path: 'group',
         component: group,
-        redirect: 'info',
         children:[{
             path: 'info/:id',
             component: () =>
             import ( /* webpackChunkName: "page" */ '@/views/iot/group/info'),
+        }]
+    }, {
+        path: 'device',
+        component: group,
+        children:[{
+            path: 'info/:id',
+            component: () =>
+            import ( /* webpackChunkName: "page" */ '@/views/iot/device/info'),
         }]
     }]
 }, {

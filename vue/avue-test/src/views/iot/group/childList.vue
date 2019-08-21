@@ -49,6 +49,7 @@
         ></el-input>
       </template>
     </avue-crud>
+    
   </div>
 </template>
 
@@ -99,7 +100,7 @@
           size: page.pageSize
         }, params)).then(response => {
           this.groupList = response.data.data.records;
-          this.page.total = response.data.data.total
+          this.page.total = Number(response.data.data.total)
           this.listLoading = false;
         });
       },
@@ -144,10 +145,10 @@
         this.getList(this.page)
       },
       openDetails(row) {
-        this.$router.push({ path: "/iot/info/"+row.id });
+        this.$router.push({ path: "/iot/group/info/"+row.id });
       },
       delItem(row, index) {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除该分组, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

@@ -1,47 +1,42 @@
 <template> 
-  <div class="groupInfo" v-loading="loading">
+  <div class="device-info" v-loading="loading">
     <div class="heard">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item to="/iot/group">分組管理</el-breadcrumb-item>
-        <el-breadcrumb-item>分组详情</el-breadcrumb-item>
+        <el-breadcrumb-item to="/iot/device">设备管理</el-breadcrumb-item>
+        <el-breadcrumb-item>设备详情</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="info-title">
         <h3 class="title">{{infoData.name}}</h3>
+        <span class="state undeloda">激活状态</span>
       </div>
       <div class="info-des">
         <el-row>
           <el-col :span="8" class="info-row">
-            <label class="label">分组层级：</label>
-            <span class="centent"></span>
+            <label class="label">产品：</label>
+            <span class="centent">{{infoData.appId}}</span>
+            <router-link :to="{ path: '/iot/device/info/' + infoData.appId}">
+              <el-button type="text" size="small">查看</el-button>
+            </router-link>
           </el-col>
           <el-col :span="8" class="info-row">
-            <label class="label">分组ID：</label>
+            <label class="label">ProductKey：</label>
             <span class="centent">{{infoData.appId}}</span>
             <el-button type="text" size="small" @click.stop="copyGroupId">复制</el-button>
           </el-col>
           <el-col :span="8" class="info-row">
-
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8" class="info-row">
-            <label class="label">设备总数：</label>
-            <span class="centent"></span>
-          </el-col>
-          <el-col :span="8" class="info-row">
-            <label class="label">激活设备：</label>
-            <span class="centent"></span>
-          </el-col>
-          <el-col :span="8" class="info-row">
-            <label class="label">当前在线：</label>
-            <span class="centent"></span>
+            <label class="label">DeviceSecret：</label>
+            <span v-show="!showDeviceSecret" class="centent">********</span>
+            <span v-show="showDeviceSecret" class="centent">{{infoData.appId}}</span>
+            <el-button v-show="!showDeviceSecret" type="text" size="small" @click.stop="showDeviceSecret = true">显示</el-button>
+            <el-button v-show="showDeviceSecret" type="text" size="small" @click.stop="copyGroupId">复制</el-button>
+            <el-button v-show="showDeviceSecret" type="text" size="small" @click.stop="showDeviceSecret = false">隐藏</el-button>
           </el-col>
         </el-row>
       </div>
     </div>
     <div class="info-tabs">
     <el-tabs v-model="activeName">
-      <el-tab-pane label="分组信息" name="group-list">
+      <el-tab-pane label="设备信息" name="device-info">
         <div class="tabs-body">
           <child-info 
             ref="childInfo"
@@ -49,18 +44,28 @@
             @editorGroup="editorGroup"
             :groupInfo = "infoData">
           </child-info>
+          <child-info-plugs 
+            ref="childInfo"
+            @copyGroupId="copyGroupId"
+            @editorGroup="editorGroup"
+            :groupInfo = "infoData">
+          </child-info-plugs >
+          
         </div>
       </el-tab-pane>
-      <el-tab-pane label="设备列表" name="equ-list">
+      <el-tab-pane label="Topic列表" name="topic-list">
         <div class="tabs-body">
-          <equ-list>
-
-          </equ-list>
+          <topic-list></topic-list>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="子分组列表" name="child-list">
+      <el-tab-pane label="运行状态" name="device-state">
         <div class="tabs-body">
-          <child-list></child-list>
+          
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="设备影子" name="device-json">
+        <div class="tabs-body">
+          <device-json></device-json>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -70,21 +75,29 @@
 
 <script>
 import { getGroupInfo,putGroupInfo } from "@/api/iot/group";
-import childInfo from "@/views/iot/group/childInfo";
+import childInfo from "@/views/iot/device/childInfo";
+import childInfoPlugs from "@/views/iot/device/childInfoPlugs";
+import topicList from "@/views/iot/device/topicList";
+import deviceJson from "@/views/iot/device/deviceJson";
+
 import childList from "@/views/iot/group/childList";
 import equList from "@/views/iot/group/equList";
 
 export default {
   components: {
     childInfo,
+    childInfoPlugs,
+    topicList,
+    deviceJson,
     childList,
     equList
   },
   data() {
     return {
-      activeName: 'group-list',
+      activeName: 'device-info',
       infoData: {},
-      loading: false
+      loading: false,
+      showDeviceSecret: false
     };
   },
   computed: {
@@ -140,11 +153,10 @@ export default {
 </script>
 
 <style lang="scss">
-.groupInfo{
+.device-info{
   .heard{
     padding: 20px 40px 0;
     background-color: #fff;
-    height: 172px;
   }
   .info-title{
     margin-top: 20px;
@@ -157,6 +169,28 @@ export default {
       font-size: 20px;
       margin: 0 8px 0 0;
       line-height: 28px;
+    }
+    .state{
+      display: inline-block;
+      padding: 0 8px;
+      text-align: center;
+      border-radius: 5px;
+      height: 24px;
+      line-height: 24px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .on{
+      background: rgb(77, 189, 218);
+    }
+    .online{
+      background: rgb(99, 194, 112);
+    }
+    .outline{
+      background: #e55130;
+    }
+    .undeloda{
+      background: #d3d5d5;
     }
   }
   .info-des{
@@ -194,9 +228,7 @@ export default {
     .tabs-body{
       margin-left: 20px;
       margin-right: 20px;
-      padding: 20px;
       overflow: hidden;
-      background-color: #fff;
     }
   }
 }
