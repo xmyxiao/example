@@ -30,6 +30,7 @@ import VueClipboard from 'vue-clipboard2'
 // 插件 json 展示
 import vueJsonTreeView from 'vue-json-tree-view'
 
+import VJsoneditor from 'v-jsoneditor'
 
 Vue.use(router)
 
@@ -38,6 +39,8 @@ Vue.use(VueClipboard)
 Vue.use(vueJsonTreeView)
 
 Vue.use(VueAxios, axios)
+
+Vue.use(VJsoneditor)
 
 //注册全局容器
 Vue.component('basicContainer', basicContainer)

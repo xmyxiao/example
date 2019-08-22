@@ -19,61 +19,40 @@
     </div>
     <div class="json-body">
       <div id="editor_holder"></div>
+      <v-jsoneditor v-model="json" 
+      :show-btns="false" 
+      :exapndedOnStart="true" 
+      :options="options" 
+      :plus="false" 
+      :height="height"
+      @error="onError"
+      ></v-jsoneditor>
     </div>
   </div>
 </template>
 
 <script>
-import '@json-editor/json-editor'
+import VJsoneditor from 'v-jsoneditor'
 
 export default {
-  name: 'child-json',
+  name: 'device-json',
+  components: {
+    VJsoneditor
+  },
   data() {
     return {
-      monacoInstance: null
-     
+      options:{
+        mode: 'code'
+      },
+      height: '400px',
+      json: {
+        "hello": "jsoneditor"
+      }
     }
   },
-  watch: {
-   
-  },
-  created() {
-    this.init()
-  },
   methods: {
-    init() {
-      this.monacoInstance = '';
-      let schema = {
-        "title": "Person",
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "First and Last name",
-            "minLength": 4,
-            "default": "Jeremy Dorn"
-          },
-          "age": {
-            "type": "integer",
-            "default": 25,
-            "minimum": 18,
-            "maximum": 99
-          },
-          "favorite_color": {
-            "type": "string",
-            "format": "color",
-            "title": "favorite color",
-            "default": "#ffa500"
-          }
-        }
-      }
-
-      let element = window.document.getElementById('editor_holder')
-      let config = { schema: {} }
-      config['schema'] = schema
-      console.log(config)
-      this.editor = new window.JSONEditor(element, config)
-      console.log(this.editor)
+    onError() {
+      console.log('error')
     }
   }
 }
@@ -98,6 +77,20 @@ export default {
         color: #73777a;
         line-height: 52px;
       }
+    }
+    
+  }
+</style>
+<style lang="scss">
+  .device-child-json{
+    div.jsoneditor-menu{
+      display: none;
+    }
+    div.jsoneditor{
+      border: 0;
+    }
+    .ace-jsoneditor .ace_gutter{
+      color:#aaa;
     }
   }
 </style>

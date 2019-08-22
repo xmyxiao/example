@@ -60,7 +60,7 @@
       </el-tab-pane>
       <el-tab-pane label="运行状态" name="device-state">
         <div class="tabs-body">
-          
+          <running-state></running-state>
         </div>
       </el-tab-pane>
       <el-tab-pane label="设备影子" name="device-json">
@@ -78,19 +78,16 @@ import { getGroupInfo,putGroupInfo } from "@/api/iot/group";
 import childInfo from "@/views/iot/device/childInfo";
 import childInfoPlugs from "@/views/iot/device/childInfoPlugs";
 import topicList from "@/views/iot/device/topicList";
+import runningState from "@/views/iot/device/runningState";
 import deviceJson from "@/views/iot/device/deviceJson";
-
-import childList from "@/views/iot/group/childList";
-import equList from "@/views/iot/group/equList";
 
 export default {
   components: {
     childInfo,
     childInfoPlugs,
     topicList,
-    deviceJson,
-    childList,
-    equList
+    runningState,
+    deviceJson
   },
   data() {
     return {
