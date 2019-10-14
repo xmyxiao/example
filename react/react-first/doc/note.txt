@@ -2,18 +2,18 @@
 
 进度: 7-11
 安装手脚架
-    npm i -g creat-react-app
+  npm i -g creat-react-app
 创建项目
-    create-react-app my-app
+  create-react-app my-app
 
 
 占位符
-    Fragment  作为根节点
+  Fragment  作为根节点
 
 注释
 {/**/}
 {
-    // 这里的注释要换行
+  // 这里的注释要换行
 }
 
 className 代替class  class是类关键字

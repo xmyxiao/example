@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Title } from './style'
-import { actionCreators } from '../store';
+import { actionCreators } from '../../store';
 
 class Header extends Component {
   render(){
@@ -19,6 +19,15 @@ class Header extends Component {
       </div>
     );
   }
+
+  componentDidMount() {
+		this.changeHomeData();
+  }
+
+  changeHomeData() {
+    dispatch(actionCreators.getHeaderList())
+  }
+  
 }
 
 export default Header

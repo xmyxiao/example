@@ -7,7 +7,7 @@ const defaultState = fromJS({
 
 export default (state = defaultState, action) => {
 	switch(action.type) {
-		case constants.SEARCH_FOCUS:
+		case constants.CHANGE_LIST:
 			return state.set('data', action.data);
 		default:
 			return state;
