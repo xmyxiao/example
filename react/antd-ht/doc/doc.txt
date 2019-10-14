@@ -1,0 +1,5 @@
+项目初始参考地址：
+  https://blog.csdn.net/zoepriselife316/article/details/88034109
+这个项目最好使用yarn不使用npm  npm安装会有很多问题
+
+添加新页面只需要在src/page中写一个新的页面组件文件，然后修改路由文件(src/router.js)，在Switch中添加path与组件的对应关系即可。
