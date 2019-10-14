@@ -2,7 +2,7 @@
   <div class="group">
     <h2 class="title">分组管理</h2>
     <basic-container>
-     <child-list></child-list>
+     <child-list :parentId="0"></child-list>
     </basic-container>
   </div>
 </template>

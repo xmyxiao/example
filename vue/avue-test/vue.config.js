@@ -6,6 +6,7 @@ module.exports = {
     devServer: {
         publicPath: baseUrl // 和 baseUrl 保持一致
     },
+    
     productionSourceMap: false,
     chainWebpack: (config) => {
         //忽略的打包文件
