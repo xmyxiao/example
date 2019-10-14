@@ -5,9 +5,9 @@
       :option="option" 
       :data="groupList" 
       :page="page"
+      @on-load="getList"
       ref="crud" 
       v-model="form"
-      @on-load="getList"
       :table-loading="listLoading"
       @search-change="handleFilter"
       @refresh-change="handleRefreshChange"
@@ -59,6 +59,7 @@
 
   export default {
     name: "table_group",
+    props: ['parentId'],
     data() {
       return {
         parentGroup: [],
@@ -88,17 +89,22 @@
       
     },
     watch: {
-      
+      parentId() {
+        this.page.page = 1;
+        this.getList(this.page);
+      }
     },
     created() {
+      
     },
     methods: {
       getList(page, params) {
         this.listLoading = true;
+        var plug = {'parentId':this.parentId}
         fetchGroupList(Object.assign({
           current: page.currentPage,
           size: page.pageSize
-        }, params)).then(response => {
+        }, params,plug)).then(response => {
           this.groupList = response.data.data.records;
           this.page.total = Number(response.data.data.total)
           this.listLoading = false;
@@ -145,7 +151,7 @@
         this.getList(this.page)
       },
       openDetails(row) {
-        this.$router.push({ path: "/iot/group/info/"+row.id });
+        this.$router.push({ path: "/iot/info/"+row.id });
       },
       delItem(row, index) {
         this.$confirm('此操作将永久删除该分组, 是否继续?', '提示', {

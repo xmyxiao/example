@@ -4,12 +4,12 @@
     <div class="header-container">
       <div class="header-left-container">
         <div class="select-container">
-          <el-select v-model="selectValue" filterable placeholder="请选择" width="160">
+          <el-select v-model="selectValue" filterable placeholder="请选择" width="160" @change="productChange">
             <el-option
               v-for="item in selectOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item.prodId"
+              :label="item.prodName"
+              :value="item.prodId">
             </el-option>
           </el-select>
         </div>
@@ -17,40 +17,52 @@
           <div class="state">
             <div class="header">
               设备总数
+              <el-tooltip class="item" effect="light" content="当前指定产品的设备总数" placement="top-start">
+                <i class="title-icon el-icon-question"></i>
+              </el-tooltip>
             </div>
             <div class="footer">
-              {{state.total}}
+              {{state.deviceCount}}
             </div>
           </div>
           <div class="state">
             <div class="header">
               <span class="notice-item on"></span>
               <span class="notice-title">激活设备</span>
+              <el-tooltip class="item" effect="light" content="当前已激活的设备总数" placement="top-start">
+                <i class="title-icon el-icon-question"></i>
+              </el-tooltip>
             </div>
             <div class="footer">
-              {{state.on}}
+              {{state.activeCount}}
             </div>
           </div>
           <div class="state">
             <div class="header">
               <span class="notice-item online"></span>
               <span class="notice-title">当前在线</span>
+              <el-tooltip class="item" effect="light" content="当前在线的设备总数" placement="top-start">
+                <i class="title-icon el-icon-question"></i>
+              </el-tooltip>
             </div>
             <div class="footer">
-              {{state.online}}
+              {{state.onlineCount}}
             </div>
           </div>
         </div>
       </div>
       <div class="header-right-container">
-        <el-button>刷新</el-button>
+        <el-button @click.stop="refresh" size="small">刷新</el-button>
       </div>
     </div>
     <div class="device-tabs">
       <el-tabs v-model="activeName">
         <el-tab-pane label="设备列表" name="device-list">
           <div class="tabs-body">
-           <device-list></device-list>
+           <device-list
+            :productId = "selectValue"
+           >
+           </device-list>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -60,6 +72,7 @@
 
 <script>
 import deviceList from "@/views/iot/device/deviceList";
+import { produnitList, deviceListNumber } from "@/api/iot/device";
 
 export default {
   components: {
@@ -67,29 +80,46 @@ export default {
   },
   data() {
     return {
-      selectOptions: [{
-        value: '选项1',
-        label: '选项1'
-      }, {
-        value: '选项2',
-        label: '选项2'
-      }, {
-        value: '选项3',
-        label: '选项3'
-      }, {
-        value: '选项4',
-        label: '选项4'
-      }, {
-        value: '选项5',
-        label: '选项5'
-      }],
+      selectOptions: [{"prodName": "全部产品","prodId": ''}],
       selectValue: '',
       state:{
-        total: 35,
-        on: 25,
-        online: 12
+        deviceCount: 0,
+        activeCount: 0,
+        onlineCount: 0
       },
       activeName: 'device-list'
+    }
+  },
+  created () {
+    this.getProdunitList()
+    this.productChange()
+  },
+  methods: {
+    getProdunitList() {
+      let params = {};
+      produnitList(params).then(response => {
+        this.selectOptions.push(...response.data.data.records)
+      })
+    },
+    productChange() {
+      let params = {
+        "prodId": this.selectValue
+      }
+      deviceListNumber(params).then(response => {
+        this.state = response.data.data
+      })
+    },
+    refresh() {
+      let params = {
+        "prodId": this.selectValue
+      }
+      deviceListNumber(params).then(response => {
+        this.state = response.data.data
+        this.$message({
+          message: '刷新成功',
+          type: 'success'
+        });
+      })
     }
   }
 }
@@ -160,6 +190,9 @@ export default {
       display: flex;
       align-items: center;
     }
+  }
+  .title-icon{
+    margin-left: 4px;
   }
 }
 .device-tabs{

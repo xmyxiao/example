@@ -3,11 +3,11 @@ import request from '@/router/axios';
 export const fetchGroupList = (query) => request({
   url: '/iot/device/tree/list',
   method: 'GET',
-  data: query 
+  params: query 
 })
 
 export const addObj = (query) => request({
-  url: '/iot/device/tree/add',
+  url: '/iot/device/tree',
   method: 'POST',
   data: query 
 })
@@ -17,20 +17,21 @@ export const getGroupTree = () => request({
   method: 'GET'
 })
 
-export const delGroup = (query) => request({
-  url: '/iot/device/tree/del',
-  method: 'GET',
-  data: query 
+export const delGroup = (id) => request({
+  url: '/iot/device/tree/' + id,
+  method: 'DELETE'
 })
 
-export const getGroupInfo = (query) => request({
-  url: '/iot/device/tree/info',
-  method: 'GET',
-  data: query 
+export const getGroupInfo = (id) => request({
+  url: '/iot/device/tree/' + id,
+  method: 'GET'
 })
 
-export const putGroupInfo = (query) => request({
-  url: '/iot/device/tree/put',
-  method: 'GET',
-  data: query 
-})
+export const putGroupInfo = (data) => {
+  console.info(data)
+  return request({
+    url: '/iot/device/tree',
+    method: 'PUT',
+    data: data
+  })
+}

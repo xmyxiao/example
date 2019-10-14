@@ -12,39 +12,45 @@
       <tr>
         <th>产品名称</th>
         <td>
-          <span>空调</span>
+          <span class="secret" style="max-width:200px" :title="deviceInfo.product.prodName">{{deviceInfo.product.prodName}}</span>
         </td>
         <th>ProductKey</th>
         <td>
-          <span>a1xnfZQ8Vzg</span>
+          <span class="centent">{{deviceInfo.product.prodKey}}</span>
+          <el-button type="text" size="small" @click.stop="copyText(infoData.product.prodKey)">复制</el-button>
         </td>
         <th>区域</th>
         <td>
-          <span>a1xnfZQ8Vzg</span>
+          <span></span>
         </td>
       </tr>
       <tr>
         <th>节点类型</th>
         <td>
-          <span></span>
-        </td>
-        <th>DeviceName</th>
-        <td>
-          <span></span>
+          <span>{{deviceInfo.prodNodeTypeName}}</span>
         </td>
         <th>DeviceSecret</th>
         <td>
-          <span></span>
+          <span v-show="!showDeviceSecret" class="centent">********</span>
+          <span v-show="showDeviceSecret" class="centent secret" :title="deviceInfo.deviceSecret">{{deviceInfo.deviceSecret}}</span>
+          <el-button v-show="!showDeviceSecret" type="text" size="small" @click.stop="showDeviceSecret = true">显示</el-button>
+          <el-button v-show="showDeviceSecret" type="text" size="small" @click.stop="copyText(deviceInfo.deviceSecret)">复制</el-button>
+          <el-button v-show="showDeviceSecret" type="text" size="small" @click.stop="showDeviceSecret = false">隐藏</el-button>
+        </td>
+        <th>设备名称</th>
+        <td>
+          <span class="centent secret" style="max-width:150px" :title="deviceInfo.deviceName">{{deviceInfo.deviceName}}</span>
+          <el-button type="text" size="small" style="position: relative;top: 2px;" @click.stop="dialogShow=true">编辑</el-button>
         </td>
       </tr>
       <tr>
-        <th>备注名称</th>
+        <th>当前状态</th>
         <td>
-          <span></span>
+          <span>{{deviceInfo.deviceStateText}}</span>
         </td>
         <th>IP地址</th>
         <td>
-          <span></span>
+          <span>{{deviceInfo.deviceIp}}</span>
         </td>
         <th>固件版本</th>
         <td>
@@ -54,49 +60,28 @@
       <tr>
         <th>添加时间</th>
         <td>
-          <span></span>
+          <span>{{deviceInfo.createTime}}</span>
         </td>
         <th>激活时间</th>
         <td>
-          <span></span>
+          <span>{{deviceInfo.activateTime}}</span>
         </td>
         <th>最后上线时间</th>
         <td>
-          <span></span>
-        </td>
-      </tr>
-      <tr>
-        <th>当前状态</th>
-        <td>
-          <span></span>
-        </td>
-        <th>实时延迟</th>
-        <td colspan="3">
-          <span></span>
+          <span>{{deviceInfo.lastOnlineTime}}</span>
         </td>
       </tr>
     </table>
 
-    <el-dialog class="item-dialog" title="编辑分组信息" :visible.sync="dialogShow" width="600px" @close="dialogCloseCell">
-      <el-form :model="groupInfo">
-        <el-form-item label="父组：">
-          <el-input v-model="dialogData.parentId" :disabled="true"></el-input>
-        </el-form-item>
-        <el-form-item label="分组名称：">
-          <el-input v-model="dialogData.name"></el-input>
-        </el-form-item>
-        <el-form-item label="分组描述：">
-          <el-input
-            type="textarea"
-            :rows="4"
-            placeholder="请输入分组描述"
-            v-model="dialogData.remark">
-          </el-input>
+    <el-dialog class="item-dialog" title="编辑设备名称" :visible.sync="dialogShow" width="600px" @close="dialogCloseCell">
+      <el-form :model="deviceInfo">
+        <el-form-item label="设备名称：">
+          <el-input v-model="dialogData.deviceName"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogShow = false">取 消</el-button>
-        <el-button type="primary" @click="changeInfo">确 定</el-button>
+        <el-button size="small" @click="dialogShow = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="changeInfo">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -107,18 +92,21 @@
 export default {
   name: 'child-info',
   props: {
-		groupInfo: {
+		deviceInfo: {
       type: Object
     }
   },
   data() {
     return {
       dialogShow: false,
-      dialogData: {}
+      dialogData: {
+        product: {}
+      },
+      showDeviceSecret: false
     }
   },
   watch: {
-    groupInfo(obj) {
+    deviceInfo(obj) {
       this.setDialogData(obj)
     }
   },
@@ -128,19 +116,39 @@ export default {
   methods: {
     setDialogData(obj) {
       this.dialogData = JSON.parse(JSON.stringify(obj))
+      let stateText = '', state = this.dialogData.deviceState
+      switch(state) {
+        case 'ONLINE':
+          stateText = '在线'
+          break;
+        case 'OFFLINE':
+          stateText = '离线'
+          break;
+        default:
+          stateText = '未激活'
+      }
+      this.dialogData.deviceStateText = stateText
     },
     changeInfo() {
-      this.$emit("editorGroup",this.dialogData);
+      this.$emit("editorDevice",this.dialogData);
     },
     dialogCloseCell() {
-      let obj = this.groupInfo
+      let obj = this.deviceInfo
       this.setDialogData(obj)
     },
     closeDialog() {
       this.dialogShow = false
     },
-    copyGroupId() {
-      this.$emit("copyGroupId");
+    copyText(text) {
+      let self = this;
+      this.$copyText(text).then(function() {
+        self.$message({
+          message: '复制成功',
+          type: 'success'
+        });
+      }, function() {
+        self.$message.error('复制失败');
+      })
     }
   }
 }
@@ -193,6 +201,17 @@ export default {
       width: 22%;
       word-break: break-all;
       color: #666;
+    }
+    .centent{
+      margin-right: 8px;
+    }
+    .secret{
+      max-width: 100px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: middle;
     }
   }
 

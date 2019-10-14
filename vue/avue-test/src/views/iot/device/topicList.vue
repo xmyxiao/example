@@ -12,17 +12,17 @@
       class="device-topic-list"
       style="width: 100%">
       <el-table-column
-        prop="date"
+        prop="topicAddr"
         label="设备的Topic"
         >
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="optionTypeName"
         label="设备具有的权限"
         width="150">
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="msg"
         label="发布消息数"
         width="150">
       </el-table-column>
@@ -30,7 +30,7 @@
         label="操作"
         width="200">
         <template slot-scope="scope">
-          <el-button @click="handleSetMsg(scope.row)" type="text" size="small">发布消息</el-button>
+          <el-button v-if="scope.row.sourceType === 'CUSTOM'" @click="handleSetMsg(scope.row)" type="text" size="small">发布消息</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -39,28 +39,44 @@
 </template>
 
 <script>
+import { getTopicList } from "@/api/iot/device";
+
 export default {
   name: 'child-topic-list',
+  props: {
+		deviceInfo: {
+      type: Object
+    }
+  },
   data() {
     return {
-      tableData: [{
-        date: '/sys/a1xnfZQ8Vzg/bg-kt/thing/event/property/post',
-        name: '发布',
-        address: '0'
-      }, {
-        date: '/sys/a1xnfZQ8Vzg/bg-kt/thing/event/property/post',
-        name: '发布',
-        address: '0'
-      }]
+      deviceId: '',
+      prodId: '',
+      tableData: []
     }
   },
   watch: {
-   
+    deviceInfo(obj) {
+      this.setTopicData(obj)
+    }
   },
   created() {
-
+    this.getTableData()
   },
   methods: {
+    setTopicData(obj) {
+      this.deviceId = obj.deviceInfo
+      this.prodId = obj.product.prodId
+    },
+    getTableData() {
+      let params = {
+        deviceId: this.deviceId,
+        prodId: this.prodId
+      }
+      getTopicList(params).then((res) =>{
+        this.tableData = res.data.data
+      })
+    },
     handleSetMsg(data) {
       console.info(data)
     }

@@ -21,19 +21,19 @@
     
     <div class="table-container" v-show="showType === '图表'">
       <el-row>
-        <el-col :span="6">
+        <el-col :span="6" v-for="(item, index) in tableData" :key="index">
           <div class="chart-view-item">
             <div class="chart-view-name">
-              当前温度
+              {{item.funName}}
               <el-button type="text">查看数据</el-button>
             </div>
             <div class="chart-view-content">
               <span class="text">
-                文本文字
+                {{item.lastVal}}{{item.unitCnName}}
               </span>
             </div>
             <div class="chart-view-time">
-              2019/08/22 14:34:00
+              {{item.lastTime}}
             </div>
           </div>
         </el-col>
@@ -46,19 +46,20 @@
         class="device-topic-list"
         style="width: 100%">
         <el-table-column
-          prop="date"
-          label="设备的Topic"
+          prop="funName"
+          label="属性名称"
+          width="250"
           >
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="设备具有的权限"
-          width="150">
+          prop="lastTime"
+          label="更新时间"
+          >
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="发布消息数"
-          width="150">
+          prop="lastVal"
+          label="最新值"
+          >
         </el-table-column>
         <el-table-column
           label="操作"
@@ -74,24 +75,46 @@
 </template>
 
 <script>
+import { getRunningData } from "@/api/iot/device";
+
 export default {
   name: 'running-state',
-  data() {
-    return {
-      refresh: false,
-      showType: '图表',
-      tableData: [{
-        date: '/sys/a1xnfZQ8Vzg/bg-kt/thing/event/property/post',
-        name: '发布',
-        address: '0'
-      }, {
-        date: '/sys/a1xnfZQ8Vzg/bg-kt/thing/event/property/post',
-        name: '发布',
-        address: '0'
-      }]
+  props: {
+		deviceInfo: {
+      type: Object
     }
   },
+  data() {
+    return {
+      deviceId: '',
+      prodId: '',
+      refresh: false,
+      showType: '图表',
+      tableData: []
+    }
+  },
+  watch: {
+    deviceInfo(obj) {
+      this.setRunData(obj)
+    }
+  },
+  created() {
+    this.getTableData()
+  },
   methods: {
+    setRunData(obj) {
+      this.deviceId = obj.deviceInfo
+      this.prodId = obj.product.prodId
+    },
+    getTableData() {
+      let params = {
+        deviceId: this.deviceId,
+        prodId: this.prodId
+      }
+      getRunningData(params).then((res) =>{
+        this.tableData = res.data.data
+      })
+    },
     handleShowData(row) {
       console.log(row)
     }

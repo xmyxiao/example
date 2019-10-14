@@ -4,8 +4,8 @@
       <div class="title">设备影子</div>
       <div></div>
       <div class="edit">
-        <el-button type="default">刷新</el-button>
-        <el-button type="primary">更新影子</el-button>
+        <el-button type="default" size="small">刷新</el-button>
+        <el-button type="primary" size="small">更新影子</el-button>
       </div>
     </div>
     
@@ -46,7 +46,16 @@ export default {
       },
       height: '400px',
       json: {
-        "hello": "jsoneditor"
+        "state": {
+          "reported": {},
+          "desired": {}
+        },
+        "metadata": {
+          "reported": {},
+          "desired": {}
+        },
+        "timestamp": 0,
+        "version": 0
       }
     }
   },

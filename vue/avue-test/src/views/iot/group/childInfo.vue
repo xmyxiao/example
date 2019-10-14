@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div style="margin-left: 20px;margin-right: 20px;padding: 20px;overflow: hidden;background-color: #fff;">
     <div class="group-list-info">
       <div class="title">分组信息</div>
       <div></div>
       <div class="edit">
-        <el-button type="primary" @click.stop="dialogShow = true">编辑</el-button>
+        <el-button type="primary" @click.stop="dialogShow = true" size="small">编辑</el-button>
       </div>
     </div>
     <div class="group-list-table">
@@ -22,7 +22,13 @@
             分组层级
           </div>
           <div class="content">
-            
+            <span>分组&nbsp;</span>
+            <router-link v-for="item in groupInfo.listTreeNode" :key="item.id" :to="{ path: '/iot/info/' + item.id}">
+              <span class="path">/&nbsp;{{item.name}}</span>
+            </router-link>
+            <router-link :to="{ path: '/iot/info/' + groupInfo.id}">
+              <span class="path">/&nbsp;{{groupInfo.name}}</span>
+            </router-link>
           </div>
         </div>
         <div class="table-row-col">
@@ -30,7 +36,7 @@
             分组ID
           </div>
           <div class="content">
-            <span class="group-id">{{groupInfo.appId}}</span>
+            <span class="group-id" :title="groupInfo.appId">{{groupInfo.appId}}</span>
             <el-button type="text" size="small" @click.stop="copyGroupId">复制</el-button>
           </div>
         </div>
@@ -41,7 +47,7 @@
             设备总数
           </div>
           <div class="content">
-            0
+            {{state.deviceCount}}
           </div>
         </div>
         <div class="table-row-col">
@@ -49,7 +55,7 @@
             激活设备
           </div>
           <div class="content">
-            0
+            {{state.activeCount}}
           </div>
         </div>
         <div class="table-row-col">
@@ -57,7 +63,7 @@
             当前设备
           </div>
           <div class="content">
-            0
+            {{state.onlineCount}}
           </div>
         </div>
       </div>
@@ -114,6 +120,9 @@ export default {
   name: 'child-info',
   props: {
 		groupInfo: {
+      type: Object
+    },
+    state: {
       type: Object
     }
   },
@@ -209,6 +218,16 @@ export default {
           }
           .group-id{
             margin-right: 8px;
+            max-width: 200px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: middle;
+          }
+          .path{
+            margin-right: 8px;
+            color: #3e88d2;
           }
         }
       }

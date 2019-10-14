@@ -1,0 +1,44 @@
+export const tableOption = {
+  emptyText: '暂无数据',
+  index: false,
+  border: true,
+  indexLabel: '序号',
+  stripe: false,
+  menuAlign: 'center',
+  editBtn: false,
+  delBtn: false,
+  align: 'left',
+  addBtn: false,
+  refreshBtn: true,
+  columnBtn: false,
+  column: [{
+    label: '产品名称',
+    prop: 'prodName',
+    value: '',
+    span: 25,
+    editDisabled: false,
+    addVisdiplay: false,
+    search: true
+  }, {
+    label: 'ProductKey',
+    prop: 'prodKey',
+    value: '',
+    span: 25,
+    editDisabled: false,
+    addVisdiplay: false
+  }, {
+    label: '节点类型',
+    prop: 'prodNodeTypeName',
+    value: '',
+    span: 25,
+    editDisabled: false,
+    addVisdiplay: false
+  }, {
+    label: '添加时间',
+    prop: 'createTime',
+    value: '',
+    span: 25,
+    editDisabled: false,
+    addVisdiplay: false
+  }]
+}

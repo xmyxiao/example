@@ -37,41 +37,18 @@
 export default {
   name: 'child-info-plugs',
   props: {
-		groupInfo: {
+		deviceInfo: {
       type: Object
     }
   },
-  data() {
-    return {
-      dialogShow: false,
-      dialogData: {}
-    }
-  },
   watch: {
-    groupInfo(obj) {
-      this.setDialogData(obj)
-    }
+    
   },
   created() {
 
   },
   methods: {
-    setDialogData(obj) {
-      this.dialogData = JSON.parse(JSON.stringify(obj))
-    },
-    changeInfo() {
-      this.$emit("editorGroup",this.dialogData);
-    },
-    dialogCloseCell() {
-      let obj = this.groupInfo
-      this.setDialogData(obj)
-    },
-    closeDialog() {
-      this.dialogShow = false
-    },
-    copyGroupId() {
-      this.$emit("copyGroupId");
-    }
+    
   }
 }
 </script>
