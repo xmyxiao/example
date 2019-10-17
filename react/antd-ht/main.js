@@ -1,10 +1,30 @@
 const { app, BrowserWindow } = require('electron')
+const ipc = require('electron').ipcMain
 // 保持对window对象的全局引用，如果不这么做的话，当JavaScript对象被
 // 垃圾回收的时候，window对象将会自动的关闭
 let win
+let newwin;
+
+ipc.on('add',()=>{
+    newwin = new BrowserWindow({
+        width: 600, 
+        height: 400,
+        frame:false,
+        parent: win, //win是主窗口
+    })
+    newwin.loadURL('http://localhost:5888/login?info=afdG9rZW4lM0RiNGVhYjNiOC0xMTk5LTRmYzYtODAxMC0yNWRiMTcyNGM2ZmElMjZwaWQlM0QyMCUyNmFwcGlkJTNENjg2JTI2bmFtZSUzRCVFNiVCNSU4QiVFOCVBRiU5NSUyNnByb2plY3RuYW1lJTNEJUU2JUI1JThCJUU4JUFGJTk1JTI2cHJvamVjdF9pZCUzRDIwJTI2YXBwX2lkJTNEdGVzdDAwMQ=='); //new.html是新开窗口的渲染进程
+    newwin.on('closed',()=>{newwin = null})
+})
+
 function createWindow() {
     // 创建浏览器窗口。
-    win = new BrowserWindow({ width: 1200, height: 800 })
+    win = new BrowserWindow({ 
+        width: 1200, 
+        height: 800, 
+        webPreferences: {
+            nodeIntegration: true
+        }
+    })
 
     // 然后加载应用的 index.html。  url 及本地文件形式
     win.loadURL('http://localhost:3000')
