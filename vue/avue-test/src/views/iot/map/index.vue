@@ -1,20 +1,25 @@
 <template>
   <div>
     <baidu-map class="bm-view" :center="center" :zoom="zoom" @ready="handler" :scroll-wheel-zoom="true">
-      <bm-marker 
-        :position="{lng: point.lng, lat: point.lat}" 
-        :dragging="true" 
-        @dragend="mapDragend" 
-        @mouseover="mapenter"
-        :title="point.address"
-      >
-      </bm-marker>
+      <map-overlay
+        :position="{lng: point.lng, lat: point.lat}"
+        :text="point.address"
+        :active="active"
+        @mouseover.native="active = true"
+        @mousemove.native="overlay_move"
+        @mouseleave.native="active = false">
+      </map-overlay>
     </baidu-map>
   </div>
 </template>
 
 <script>  
+  import mapOverlay from '@/views/iot/map/map_overlay.vue'
+  
   export default {
+    components: {
+      mapOverlay
+    },
     data() {
       return {
         center: {
@@ -28,7 +33,8 @@
           lng: 119.275254,
           lat: 26.028928,
           address: '测试点'
-        }
+        },
+        active:false
       }
     },
     methods: {
@@ -65,6 +71,11 @@
       mapenter() {
         console.log('123')
       },
+      overlay_move(e) {
+        if(!e.target.classList.contains('circular')){
+          this.active = false
+        }
+      }
     }
   }
 </script>
