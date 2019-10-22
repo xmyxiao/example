@@ -36,8 +36,7 @@
         //地图
         this.BMap = BMap
         this.map = map
-        console.log(styleJson)
-        map.setMapStyle({
+        map.setMapStyleV2({
           styleId: '22cc9921f4b0cc938d1a9252fa5af69d'
         });
       },
