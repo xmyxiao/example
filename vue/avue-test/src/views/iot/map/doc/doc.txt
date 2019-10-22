@@ -1,0 +1,3 @@
+百度地图v=2.0  改为v=3.0
+使用setMapStyleV2  加载模板
+ak要与styleId 对应  都使用一个人的数据

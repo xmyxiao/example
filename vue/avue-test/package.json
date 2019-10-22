@@ -28,6 +28,7 @@
     "v-jsoneditor": "^1.2.1",
     "vue": "^2.5.16",
     "vue-axios": "^2.1.2",
+    "vue-baidu-map": "^0.21.22",
     "vue-clipboard2": "^0.2.1",
     "vue-json-tree-view": "^2.1.4",
     "vue-quill-editor": "^3.0.6",

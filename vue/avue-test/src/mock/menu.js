@@ -255,6 +255,14 @@ const first = [{
         icon: 'icon-biaoge',
         meta: {},
         children: []
+    }, {
+        id: 1213,
+        label: "地图",
+        path: 'map',
+        component: 'views/iot/map/index',
+        icon: 'icon-biaoge',
+        meta: {},
+        children: []
     }]
 
 }]

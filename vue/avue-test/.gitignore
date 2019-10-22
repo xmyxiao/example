@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+!node_modules/vue-baidu-map/index.js
 /dist
 
 /tests/e2e/videos/

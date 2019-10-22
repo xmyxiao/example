@@ -31,6 +31,7 @@ import VueClipboard from 'vue-clipboard2'
 import vueJsonTreeView from 'vue-json-tree-view'
 
 import VJsoneditor from 'v-jsoneditor'
+import BaiduMap from 'vue-baidu-map'
 
 Vue.use(router)
 
@@ -41,6 +42,10 @@ Vue.use(vueJsonTreeView)
 Vue.use(VueAxios, axios)
 
 Vue.use(VJsoneditor)
+
+Vue.use(BaiduMap, {
+  ak: 'N05AG95Umzs3fouk6WpFqtGxcDlw0fRn'
+})
 
 //注册全局容器
 Vue.component('basicContainer', basicContainer)
