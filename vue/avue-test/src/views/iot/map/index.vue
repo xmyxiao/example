@@ -1,10 +1,13 @@
 <template>
   <div>
-    <baidu-map class="bm-view" :center="center" :zoom="zoom" @ready="handler" :scroll-wheel-zoom="true">
+    <baidu-map class="bm-view" ak="N05AG95Umzs3fouk6WpFqtGxcDlw0fRn" :center="center" :zoom="zoom" @ready="handler" :scroll-wheel-zoom="true">
       <map-overlay
+        ref="overlay"
         :position="{lng: point.lng, lat: point.lat}"
         :text="point.address"
         :active="active"
+        :pointColor="pointColor"
+        @showInfo="showInfo"
         @mouseover.native="active = true"
         @mousemove.native="overlay_move"
         @mouseleave.native="active = false">
@@ -14,10 +17,12 @@
 </template>
 
 <script>  
+  import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
   import mapOverlay from '@/views/iot/map/map_overlay.vue'
   
   export default {
     components: {
+      BaiduMap,
       mapOverlay
     },
     data() {
@@ -34,6 +39,7 @@
           lat: 26.028928,
           address: '测试点'
         },
+        pointColor: '#3ff4ff',
         active:false
       }
     },
@@ -68,13 +74,14 @@
           // console.log(rs.business) // 商圈字段，代表此点所属的商圈(string)
         })
       },
-      mapenter() {
-        console.log('123')
-      },
       overlay_move(e) {
         if(!e.target.classList.contains('circular')){
           this.active = false
         }
+      },
+      showInfo() {
+        this.$refs.overlay.dialogClose()
+        console.log('111')
       }
     }
   }
