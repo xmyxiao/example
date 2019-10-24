@@ -1,29 +1,23 @@
 <template>
   <div>
-    <baidu-map class="bm-view" ak="N05AG95Umzs3fouk6WpFqtGxcDlw0fRn" :center="center" :zoom="zoom" @ready="handler" :scroll-wheel-zoom="true">
-      <map-overlay
-        ref="overlay"
-        :position="{lng: point.lng, lat: point.lat}"
-        :text="point.address"
-        :active="active"
-        :pointColor="pointColor"
-        @showInfo="showInfo"
-        @mouseover.native="active = true"
-        @mousemove.native="overlay_move"
-        @mouseleave.native="active = false">
-      </map-overlay>
-    </baidu-map>
+    <div class="btn" style="z-index: 9999999999999;color: #fff;position: absolute;cursor: pointer;" @click="btnClick">点击</div>
+    <point-map
+      ref="pointMap"
+      :center="center"
+      :zoom="zoom"
+      :baiduAk="baiduAk"
+      :pointList="pointList"
+      @showDetails="showDetails"
+    ></point-map>
   </div>
 </template>
 
 <script>  
-  import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
-  import mapOverlay from '@/views/iot/map/map_overlay.vue'
+  import pointMap from '@/views/iot/map/point_map.vue'
   
   export default {
     components: {
-      BaiduMap,
-      mapOverlay
+      pointMap
     },
     data() {
       return {
@@ -32,66 +26,67 @@
           lat: 26.028928
         },
         zoom: 20,
-        BMap: null,
-        map: null,
-        point: {
-          lng: 119.275254,
-          lat: 26.028928,
-          address: '测试点'
-        },
-        pointColor: '#3ff4ff',
-        active:false
+        baiduAk: 'N05AG95Umzs3fouk6WpFqtGxcDlw0fRn',
+        pointList: [{
+          "activateTime": "",
+          "createTime": "",
+          "deviceAddr": "设备使用地址",
+          "deviceEnableType": "ENABLE",  //启用状态(启用，禁用),可用值:ENABLE,DISABLE
+          "deviceId": 0,
+          "deviceIp": "",
+          "deviceKey": "",
+          "deviceLat": 26.028928,
+          "deviceLng": 119.275254,
+          "deviceName": "设备名称1",
+          "deviceSecret": "",
+          "deviceState": "UNACTIVE",    //设备状态(未激活，在线，离线),可用值:UNACTIVE,ONLINE,OFFLINE
+          "deviceStateName": "",
+          "lastOnlineTime": "",
+          "prodId": 0,
+          "prodName": "",
+          "prodNodeType": "",
+          "prodNodeTypeName": "",
+          "prodSourceType": "",
+          "updateTime": ""
+        },{
+          "activateTime": "",
+          "createTime": "",
+          "deviceAddr": "设备使用地址",
+          "deviceEnableType": "ENABLE",  //启用状态(启用，禁用),可用值:ENABLE,DISABLE
+          "deviceId": 1,
+          "deviceIp": "",
+          "deviceKey": "",
+          "deviceLat": 26.028,
+          "deviceLng": 119.275,
+          "deviceName": "设备名称2",
+          "deviceSecret": "",
+          "deviceState": "ONLINE",    //设备状态(未激活，在线，离线),可用值:UNACTIVE,ONLINE,OFFLINE
+          "deviceStateName": "",
+          "lastOnlineTime": "",
+          "prodId": 0,
+          "prodName": "",
+          "prodNodeType": "",
+          "prodNodeTypeName": "",
+          "prodSourceType": "",
+          "updateTime": ""
+        }]
       }
     },
     methods: {
-      handler ({BMap, map}) {
-        //地图
-        this.BMap = BMap
-        this.map = map
-        map.setMapStyleV2({
-          styleId: '22cc9921f4b0cc938d1a9252fa5af69d'
-        });
+      showDetails(id) {
+        this.$refs.pointMap.showPointDetails(id)
       },
-      mapDragend(type) {
-        this.point.lng = type.point.lng
-        this.point.lat = type.point.lat
-        this.getPointName(type)
-      },
-      getPointName(e) {
-        /* global BMap */
-        const geocoder = new BMap.Geocoder()
-        geocoder.getLocation(e.point, rs => {
-          let province = rs.addressComponents.province // 省
-          let city = rs.addressComponents.city // 城市
-          let district = rs.addressComponents.district // 区县
-          let street = rs.addressComponents.street // 街道
-          let streetNumber = rs.addressComponents.streetNumber// 门牌号
-          if(!streetNumber){
-            streetNumber + '号'
-          }
-          this.point.address = province + city + district + street + streetNumber
-          // console.log(rs.surroundingPois) // 附近的POI点(array) POI：兴趣点 可以是一栋房子、一个商铺、一个邮筒、一个公交站
-          // console.log(rs.business) // 商圈字段，代表此点所属的商圈(string)
-        })
-      },
-      overlay_move(e) {
-        if(!e.target.classList.contains('circular')){
-          this.active = false
+      btnClick(){
+        this.showDetails(1)
+        this.center = {
+          lng: 119.275,
+          lat: 26.028
         }
-      },
-      showInfo() {
-        this.$refs.overlay.dialogClose()
-        console.log('111')
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-.bm-view{
-  position: absolute;
-  top: 0;
-  bottom: -20px;
-  width: 100%;
-}
+
 </style>

@@ -25,13 +25,14 @@
 import bmOverlay from 'vue-baidu-map/components/overlays/Overlay.vue'
 import mapDialog from '@/views/iot/map/map_dialog.vue'
 export default {
-  props: ['text', 'position', 'active', 'pointColor'],
+  props: ['text', 'position', 'activeNumber', 'pointColor', 'deviceId'],
   components: {
     bmOverlay,
     mapDialog
   },
   data() {
     return {
+      active: false,
       dialogShow: false,
       dialogInfo: {
         deviceName: '设备名称',
@@ -40,7 +41,8 @@ export default {
         deviceAddress: '福建省福州市仓山区冠浦路152号',
         waringTotal: 100,
         waringUntreated: 99,
-        waringProcessed: 1
+        waringProcessed: 1,
+        loadShow:false
       }
     }
   },
@@ -50,6 +52,14 @@ export default {
         this.$refs.customOverlay.reload()
       },
       deep: true
+    },
+    activeNumber(num){
+      if(num === this.deviceId){
+        this.active = true
+        
+      }else{
+        this.active = false
+      }
     }
   },
   methods: {
@@ -63,7 +73,9 @@ export default {
       this.dialogShow = false
     },
     mapDialogShow() {
-      this.dialogShow = !this.dialogShow
+      this.dialogShow = true
+      this.dialogInfo.deviceNumber = this.deviceId
+      this.dialogInfo.deviceName = this.text
     },
     showInfo(){
       this.$emit('showInfo')
