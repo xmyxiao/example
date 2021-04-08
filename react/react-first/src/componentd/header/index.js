@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Title } from './style'
-import { actionCreators } from '../../store';
+// import { actionCreators } from '../../store';
 
 class Header extends Component {
   render(){
@@ -25,7 +25,7 @@ class Header extends Component {
   }
 
   changeHomeData() {
-    dispatch(actionCreators.getHeaderList())
+    // dispatch(actionCreators.getHeaderList())
   }
   
 }
