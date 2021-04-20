@@ -7,9 +7,9 @@ function App() {
   return (
     <div>
       <Header />
-	  <Part1 name={'测试'} />
-	  <Part2 />
-      test file
+			<Part1 name={'测试'} />
+			<Part2 />
+			分支测试
     </div>
   );
 }
